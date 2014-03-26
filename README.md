@@ -32,30 +32,34 @@ If you already have a user account in your Azure Active Directory tenant, you ca
 6. Click "Add an application my organization is developing".
 7. Enter a friendly name for the application, for example "WebApp-OpenIDConnect-DotNet", select "Web Application and/or Web API", and click next.
 8. For the sign-on URL, enter the base URL for the sample, which is by default `https://localhost:44320`.
-9. For the App ID URI, enter `https://<your_tenant_name>/WebApp-OpenIDConnect-DotNet`, replacing <your_tenant_name> with the name of your Azure AD tenant.
+9. For the App ID URI, enter `https://<your_tenant_name>/WebApp-OpenIDConnect-DotNet`, replacing `<your_tenant_name>` with the name of your Azure AD tenant.
 
 All done!  Before moving on to the next step, you need to find the Client ID of your application.
 
-1. Still in the Azure portal, click the Configure tab of your application.
+1. While still in the Azure portal, click the Configure tab of your application.
 2. Find the Client ID value and copy it to the clipboard.
 
 ### Step 4:  Configure the sample to use your Azure Active Directory tenant
 
 1. Open the solution in Visual Studio 2013.
 2. In the `App_Start` folder, open the `Startup.Auth.cs` file.
-3. Replace the `ida:Authority` and replace the value with your Azure AD tenant name.
-4. Replace the value assigned to `Client_Id` with the Client ID from the Azure portal.
+3. Replace the value assigned to `authority` with your Azure AD tenant name.
+4. Replace the value assigned to `clientId` with the Client ID from the Azure portal.
 5. If you changed the base URL of the sample, replace the value assigned to `Post_Logout_Redirect_Uri` with the new  base URL of the sample.
 
 ### Step 5:  Run the sample
 
-You know what to do!  Upon running the sample you will immediately be prompted to sign in.  Enter the name and password of a user account that is in your Azure AD tenant.
+You know what to do!
+
+Click the sign-in link on the homepage of the application to sign-in.  On the Azure AD sign-in page, enter the name and password of a user account that is in your Azure AD tenant.
 
 ## How To Deploy This Sample to Azure
 
 Coming soon.
 
 ## About The Code
+
+Coming soon.
 
 ## How This Sample Was Created
 
