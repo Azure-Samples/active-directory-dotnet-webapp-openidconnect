@@ -24,15 +24,15 @@ If you already have a user account in your Azure Active Directory tenant, you ca
 
 ### Step 3:  Register the sample with your Azure Active Directory tenant
 
-1. Sign in to the [Azure management porta](https://manage.windowsazure.com).
+1. Sign in to the [Azure management portal](https://manage.windowsazure.com).
 2. Click on Active Directory in the left hand nav.
 3. Click the directory tenant where you wish to register the sample application.
 4. Click the Applications tab.
 5. In the drawer, click Add.
 6. Click "Add an application my organization is developing".
-7. Enter a friendly name for the application, select "Web Application and/or Web API", and click next.
-8. For the sign-on URL, enter `https://localhost:XXXX`.
-9. For the App ID URI, enter `https://<your_tenant_name>/WebApp-OpenIDConnect-DotNet`
+7. Enter a friendly name for the application, for example "WebApp-OpenIDConnect-DotNet", select "Web Application and/or Web API", and click next.
+8. For the sign-on URL, enter the base URL for the sample, which is by default `https://localhost:44320`.
+9. For the App ID URI, enter `https://<your_tenant_name>/WebApp-OpenIDConnect-DotNet`, replacing <your_tenant_name> with the name of your Azure AD tenant.
 
 All done!  Before moving on to the next step, you need to find the Client ID of your application.
 
@@ -42,14 +42,39 @@ All done!  Before moving on to the next step, you need to find the Client ID of 
 ### Step 4:  Configure the sample to use your Azure Active Directory tenant
 
 1. Open the solution in Visual Studio 2013.
-2. Open the `web.config` file.
-3. Find the app key called `ida:Authority` and replace the value with your Azure AD tenant name.
-4. Find the app key called `ida:ClientId` and replace the value with the Client ID from the Azure portal.
+2. In the `App_Start` folder, open the `Startup.Auth.cs` file.
+3. Replace the `ida:Authority` and replace the value with your Azure AD tenant name.
+4. Replace the value assigned to `Client_Id` with the Client ID from the Azure portal.
+5. If you changed the base URL of the sample, replace the value assigned to `Post_Logout_Redirect_Uri` with the new  base URL of the sample.
 
 ### Step 5:  Run the sample
 
 You know what to do!  Upon running the sample you will immediately be prompted to sign in.  Enter the name and password of a user account that is in your Azure AD tenant.
 
+## How To Deploy This Sample to Azure
+
+Coming soon.
+
 ## About The Code
 
 ## How This Sample Was Created
+
+1. In Visual Studio 2013, create a new ASP.Net MVC web application with Authentication set to No Authentication.
+2. Set SSL Enabled to be True.  Note the SSL URL.
+3. In the project properties, set the Project Url to be the SSL URL.
+4. Add the following ASP.Net OWIN middleware NuGets
+- NOTE:  For pre-release users, to find these NuGets you must add the AzureADWebStackNightly feed (http://www.myget.org/f/azureadwebstacknightly/) for the first two NuGets and the AspNetWebStackNightly feed (http://www.myget.org/f/aspnetwebstacknightly/) for the latter three NuGets.
+- Microsoft.IdentityModel.Protocol.Extensions
+- System.IdentityModel.Tokens.Jwt
+- Microsoft.Owin.Security.OpenIdConnect
+- Microsoft.Owin.Security.Cookies
+- Microsoft.Owin.Host.SystemWeb
+5. In the `App_Start` folder, create a class `Startup.Auth.cs`.  You will need to remove `.App_Start` from the namespace name.  Replace the code for the `Startup` class with the code from the same file of the sample app.  Be sure to take the whole class definition!  The definition changes from `public class Startup` to `public partial class Startup`.
+6. Resolve missing references by adding `using` statements for `Owin`, `Microsoft.Owin.Security`, `Microsoft.Owin.Security.Cookies`, and `Microsoft.Owin.Security.OpenIdConnect`.
+7. Right-click on the project, select Add, and select "OWIN Startup class".  If "OWIN Startup Class" doesn't appear in the menu, instead select "Class", and in the search box enter "OWIN".  "OWIN Startup class" will appear as a selection; select it, and name the class `Startup.cs`.
+8. In `Startup.cs`, replace the code for the `Startup` class with the code from the same file of the sample app.  Again, note the definition changes from `public class Startup` to `public partial class Startup`.
+9. In the `Views` --> `Shared` folder, create a new partial view `_LoginPartial.cshtml`.  Replace the contents of the file with the contents of the file of same name from the sample.
+10. In the `Views` --> `Shared` folder, replace the contents of `_Layout.cshtml` with the contents of the file of same name from the sample.  Effectively, all this will do is add a single line, `@Html.Partial("_LoginPartial")`, that lights up the previously added `_LoginPartial` view.
+11. Create a new empty controller called `AccountController`.  Replace the implementation with the contents of the file of same name from the sample.
+12. Almost done!  If you want the user to be required to sign-in before they can see any page of the app, then in the `HomeController`, decorate the `HomeController` class with the `[Authorize]` attribute.  If you leave this out, the user will be able to see the home page of the app without having to sign-in first, and can click the sign-in link on that page to get signed in.
+13. Build and run!
