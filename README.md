@@ -42,10 +42,10 @@ All done!  Before moving on to the next step, you need to find the Client ID of 
 ### Step 4:  Configure the sample to use your Azure Active Directory tenant
 
 1. Open the solution in Visual Studio 2013.
-2. In the `App_Start` folder, open the `Startup.Auth.cs` file.
-3. Replace the value assigned to `authority` with your Azure AD tenant name.
-4. Replace the value assigned to `clientId` with the Client ID from the Azure portal.
-5. If you changed the base URL of the sample, replace the value assigned to `Post_Logout_Redirect_Uri` with the new  base URL of the sample.
+2. Open the `web.config` file.
+3. Find the app key `ida:Authority` and replace the value with `https://login.windows.net/<your_tenant_name>`.
+4. Find the app key `ida:ClientId` and replace the value with the Client ID from the Azure portal.
+5. If you changed the base URL of the sample, find the app key `ida:PostLogoutRedirectUri` and replace the value with the new base URL of the sample.
 
 ### Step 5:  Run the sample
 
@@ -74,7 +74,7 @@ Coming soon.
 - Microsoft.Owin.Security.Cookies
 - Microsoft.Owin.Host.SystemWeb
 5. In the `App_Start` folder, create a class `Startup.Auth.cs`.  You will need to remove `.App_Start` from the namespace name.  Replace the code for the `Startup` class with the code from the same file of the sample app.  Be sure to take the whole class definition!  The definition changes from `public class Startup` to `public partial class Startup`.
-6. Resolve missing references by adding `using` statements for `Owin`, `Microsoft.Owin.Security`, `Microsoft.Owin.Security.Cookies`, and `Microsoft.Owin.Security.OpenIdConnect`.
+6. In `Startup.Auth.cs` resolve missing references by adding `using` statements for `Owin`, `Microsoft.Owin.Security`, `Microsoft.Owin.Security.Cookies`, `Microsoft.Owin.Security.OpenIdConnect`, and `System.Configuration`.
 7. Right-click on the project, select Add, and select "OWIN Startup class".  If "OWIN Startup Class" doesn't appear in the menu, instead select "Class", and in the search box enter "OWIN".  "OWIN Startup class" will appear as a selection; select it, and name the class `Startup.cs`.
 8. In `Startup.cs`, replace the code for the `Startup` class with the code from the same file of the sample app.  Again, note the definition changes from `public class Startup` to `public partial class Startup`.
 9. In the `Views` --> `Shared` folder, create a new partial view `_LoginPartial.cshtml`.  Replace the contents of the file with the contents of the file of same name from the sample.
