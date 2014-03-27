@@ -69,12 +69,14 @@ This sample shows how to use the OpenID Connect ASP.Net OWIN middleware to sign-
 You can trigger the middleware to send an OpenID Connect sign-in request by decorating a class or method with the `[Authorize]` attribute, or by issuing a challenge,
 ```
 HttpContext.GetOwinContext().Authentication.Challenge(
-	new AuthenticationProperties { RedirectUri = "/" }, OpenIdConnectAuthenticationDefaults.AuthenticationType);
+	new AuthenticationProperties { RedirectUri = "/" },
+	OpenIdConnectAuthenticationDefaults.AuthenticationType);
 ```
 Similarly you can send a signout request,
 ```
 HttpContext.GetOwinContext().Authentication.SignOut(
-	OpenIdConnectAuthenticationDefaults.AuthenticationType, CookieAuthenticationDefaults.AuthenticationType);
+	OpenIdConnectAuthenticationDefaults.AuthenticationType,
+	CookieAuthenticationDefaults.AuthenticationType);
 ```
 When a user is signed out, they will be redirected to the `Post_Logout_Redirect_Uri` specified when the OpenID Connect middleware is initialized.
 
