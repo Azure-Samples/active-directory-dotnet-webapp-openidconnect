@@ -3,12 +3,14 @@ WebApp-OpenIDConnect-DotNet
 
 This sample shows how to build a .Net MVC web application that uses OpenID Connect to sign-in users from a single Azure Active Directory tenant, using the ASP.Net OpenID Connect OWIN middleware.
 
+For more information about how the protocols work in this scenario and other scenarios, see the [Authentication Scenarios](http://msdn.microsoft.com/aad) for Azure AD document.
+
 ## How To Run This Sample
 
 Getting started is simple!  To run this sample you will need:
 - Visual Studio 2013
 - An Internet connection
-- An Azure subscription
+- An Azure subscription (a free trial is sufficient)
 
 Every Azure subscription has an associated Azure Active Directory tenant.  If you don't already have an Azure subscription, you can get a free subscription by signing up at [http://wwww.windowsazure.com](http://www.windowsazure.com).  All of the Azure AD features used by this sample are available free of charge.
 
@@ -59,20 +61,25 @@ Coming soon.
 
 ## About The Code
 
-Coming soon.
+This sample shows how to use the OpenID Connect ASP.Net OWIN middleware to sign-in users from a single Azure AD tenant.  The middleware is initialized in the Startup.Auth.cs file, by passing it the Client ID of the application and the URL of the Azure AD tenant where the application is registered.  The middleware then takes care of:
+- Downloading the Azure AD metadata and finding the signing keys.
+- Processing OpenID Connect sign-in responses by validating the signature in an incoming JWT, extracting the user's claims, and putting them on Thread.CurrentPrincipal.
+- Integrating with the session cookie ASP.Net OWIN middleware to establish a session for the user. 
+
+You can trigger the middleware to send an OpenID Connect sign-in request by decorating a class or method with the [Authorize] attribute, or by issuing a challenge,
+`HttpContext.GetOwinContext().Authentication.Challenge(new AuthenticationProperties { RedirectUri = "/" }, OpenIdConnectAuthenticationDefaults.AuthenticationType);`
+Similarly you can send a signout request,
+`HttpContext.GetOwinContext().Authentication.SignOut(OpenIdConnectAuthenticationDefaults.AuthenticationType, CookieAuthenticationDefaults.AuthenticationType);`
+When a user is signed out, they will be redirected to the `Post_Logout_Redirect_Uri` specified when the OpenID Connect middleware is initialized.
+
+All of the OWIN middleware in this project is created as a part of the open source [Katana project](http://katanaproject.codeplex.com).  You can read more about OWIN [here](http://owin.org).
 
 ## How To Recreate This Sample
 
 1. In Visual Studio 2013, create a new ASP.Net MVC web application with Authentication set to No Authentication.
 2. Set SSL Enabled to be True.  Note the SSL URL.
 3. In the project properties, Web properties, set the Project Url to be the SSL URL.
-4. Add the following ASP.Net OWIN middleware NuGets
-- NOTE:  For pre-release users, to find these NuGets you must add the AzureADWebStackNightly feed (http://www.myget.org/f/azureadwebstacknightly/) for the first two NuGets and the AspNetWebStackNightly feed (http://www.myget.org/f/aspnetwebstacknightly/) for the latter three NuGets.
-- Microsoft.IdentityModel.Protocol.Extensions
-- System.IdentityModel.Tokens.Jwt
-- Microsoft.Owin.Security.OpenIdConnect
-- Microsoft.Owin.Security.Cookies
-- Microsoft.Owin.Host.SystemWeb
+4. Add the following ASP.Net OWIN middleware NuGets: (NOTE:  For pre-release users, to find these NuGets you must add the AzureADWebStackNightly feed http://www.myget.org/f/azureadwebstacknightly/ for the first two NuGets and the AspNetWebStackNightly feed http://www.myget.org/f/aspnetwebstacknightly/ for the latter three NuGets)	Microsoft.IdentityModel.Protocol.Extensions, System.IdentityModel.Tokens.Jwt, Microsoft.Owin.Security.OpenIdConnect, Microsoft.Owin.Security.Cookies, Microsoft.Owin.Host.SystemWeb.
 5. In the `App_Start` folder, create a class `Startup.Auth.cs`.  You will need to remove `.App_Start` from the namespace name.  Replace the code for the `Startup` class with the code from the same file of the sample app.  Be sure to take the whole class definition!  The definition changes from `public class Startup` to `public partial class Startup`.
 6. In `Startup.Auth.cs` resolve missing references by adding `using` statements for `Owin`, `Microsoft.Owin.Security`, `Microsoft.Owin.Security.Cookies`, `Microsoft.Owin.Security.OpenIdConnect`, `System.Configuration`, and `System.Globalization`.
 7. Right-click on the project, select Add, select "OWIN Startup class", and name the class "Startup".  If "OWIN Startup Class" doesn't appear in the menu, instead select "Class", and in the search box enter "OWIN".  "OWIN Startup class" will appear as a selection; select it, and name the class `Startup.cs`.
