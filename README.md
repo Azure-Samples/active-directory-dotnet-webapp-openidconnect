@@ -43,7 +43,7 @@ All done!  Before moving on to the next step, you need to find the Client ID of 
 
 1. Open the solution in Visual Studio 2013.
 2. Open the `web.config` file.
-3. Find the app key `ida:Authority` and replace the value with `https://login.windows.net/<your_tenant_name>`.
+3. Find the app key `ida:Tenant` and replace the value with your AAD tenant name.
 4. Find the app key `ida:ClientId` and replace the value with the Client ID from the Azure portal.
 5. If you changed the base URL of the sample, find the app key `ida:PostLogoutRedirectUri` and replace the value with the new base URL of the sample.
 
@@ -61,11 +61,11 @@ Coming soon.
 
 Coming soon.
 
-## How This Sample Was Created
+## How To Recreate This Sample
 
 1. In Visual Studio 2013, create a new ASP.Net MVC web application with Authentication set to No Authentication.
 2. Set SSL Enabled to be True.  Note the SSL URL.
-3. In the project properties, set the Project Url to be the SSL URL.
+3. In the project properties, Web properties, set the Project Url to be the SSL URL.
 4. Add the following ASP.Net OWIN middleware NuGets
 - NOTE:  For pre-release users, to find these NuGets you must add the AzureADWebStackNightly feed (http://www.myget.org/f/azureadwebstacknightly/) for the first two NuGets and the AspNetWebStackNightly feed (http://www.myget.org/f/aspnetwebstacknightly/) for the latter three NuGets.
 - Microsoft.IdentityModel.Protocol.Extensions
@@ -80,5 +80,6 @@ Coming soon.
 9. In the `Views` --> `Shared` folder, create a new partial view `_LoginPartial.cshtml`.  Replace the contents of the file with the contents of the file of same name from the sample.
 10. In the `Views` --> `Shared` folder, replace the contents of `_Layout.cshtml` with the contents of the file of same name from the sample.  Effectively, all this will do is add a single line, `@Html.Partial("_LoginPartial")`, that lights up the previously added `_LoginPartial` view.
 11. Create a new empty controller called `AccountController`.  Replace the implementation with the contents of the file of same name from the sample.
-12. Almost done!  If you want the user to be required to sign-in before they can see any page of the app, then in the `HomeController`, decorate the `HomeController` class with the `[Authorize]` attribute.  If you leave this out, the user will be able to see the home page of the app without having to sign-in first, and can click the sign-in link on that page to get signed in.
-13. Build and run!
+12. If you want the user to be required to sign-in before they can see any page of the app, then in the `HomeController`, decorate the `HomeController` class with the `[Authorize]` attribute.  If you leave this out, the user will be able to see the home page of the app without having to sign-in first, and can click the sign-in link on that page to get signed in.
+13. Almost done!  In `web.config`, in `<appSettings>`, create keys for `ida:ClientId`, `ida:AADInstance`, `ida:Tenant`, and `ida:PostLogoutRedirectUri` and set the values accordingly.  For the public Azure AD, the value of `ida:AADInstance` is `https://login.windows.net/{0}`.
+14. Build and run!
