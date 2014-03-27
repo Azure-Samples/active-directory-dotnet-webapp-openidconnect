@@ -8,6 +8,7 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
 using System.Configuration;
+using System.Globalization;
 
 namespace WebApp_OpenIDConnect_DotNet
 {
@@ -19,9 +20,12 @@ namespace WebApp_OpenIDConnect_DotNet
         // The Authority is the name of the Azure AD tenant in which this application is registered.
         // The Post Logout Redirect Uri is the URL where the user will be redirected after they sign out.
         //
-        string clientId = ConfigurationManager.AppSettings["ida:ClientId"];
-        string authority = ConfigurationManager.AppSettings["ida:Authority"];
-        string postLogoutRedirectUri = ConfigurationManager.AppSettings["ida:PostLogoutRedirectUri"];
+        private static string clientId = ConfigurationManager.AppSettings["ida:ClientId"];
+        private static string aadInstance = ConfigurationManager.AppSettings["ida:AADInstance"];
+        private static string tenant = ConfigurationManager.AppSettings["ida:Tenant"];
+        private static string postLogoutRedirectUri = ConfigurationManager.AppSettings["ida:PostLogoutRedirectUri"];
+
+        string authority = String.Format(CultureInfo.InvariantCulture, aadInstance, tenant);
 
         public void ConfigureAuth(IAppBuilder app)
         {
