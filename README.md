@@ -62,8 +62,8 @@ Coming soon.
 ## About The Code
 
 This sample shows how to use the OpenID Connect ASP.Net OWIN middleware to sign-in users from a single Azure AD tenant.  The middleware is initialized in the `Startup.Auth.cs` file, by passing it the Client ID of the application and the URL of the Azure AD tenant where the application is registered.  The middleware then takes care of:
-- Downloading the Azure AD metadata and finding the signing keys.
-- Processing OpenID Connect sign-in responses by validating the signature and issuer in an incoming JWT, extracting the user's claims, and putting them on Thread.CurrentPrincipal.
+- Downloading the Azure AD metadata, finding the signing keys, and finding the issuer name for the tenant.
+- Processing OpenID Connect sign-in responses by validating the signature and issuer in an incoming JWT, extracting the user's claims, and putting them on ClaimsPrincipal.Current.
 - Integrating with the session cookie ASP.Net OWIN middleware to establish a session for the user. 
 
 You can trigger the middleware to send an OpenID Connect sign-in request by decorating a class or method with the `[Authorize]` attribute, or by issuing a challenge,
