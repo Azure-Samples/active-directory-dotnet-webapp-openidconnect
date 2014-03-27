@@ -3,7 +3,7 @@ WebApp-OpenIDConnect-DotNet
 
 This sample shows how to build a .Net MVC web application that uses OpenID Connect to sign-in users from a single Azure Active Directory tenant, using the ASP.Net OpenID Connect OWIN middleware.
 
-For more information about how the protocols work in this scenario and other scenarios, see the [Authentication Scenarios](http://msdn.microsoft.com/aad) for Azure AD document.
+For more information about how the protocols work in this scenario and other scenarios, see the [Authentication Scenarios for Azure AD](http://msdn.microsoft.com/aad) document.
 
 ## How To Run This Sample
 
@@ -61,15 +61,17 @@ Coming soon.
 
 ## About The Code
 
-This sample shows how to use the OpenID Connect ASP.Net OWIN middleware to sign-in users from a single Azure AD tenant.  The middleware is initialized in the Startup.Auth.cs file, by passing it the Client ID of the application and the URL of the Azure AD tenant where the application is registered.  The middleware then takes care of:
+This sample shows how to use the OpenID Connect ASP.Net OWIN middleware to sign-in users from a single Azure AD tenant.  The middleware is initialized in the `Startup.Auth.cs` file, by passing it the Client ID of the application and the URL of the Azure AD tenant where the application is registered.  The middleware then takes care of:
 - Downloading the Azure AD metadata and finding the signing keys.
-- Processing OpenID Connect sign-in responses by validating the signature in an incoming JWT, extracting the user's claims, and putting them on Thread.CurrentPrincipal.
+- Processing OpenID Connect sign-in responses by validating the signature and issuer in an incoming JWT, extracting the user's claims, and putting them on Thread.CurrentPrincipal.
 - Integrating with the session cookie ASP.Net OWIN middleware to establish a session for the user. 
 
-You can trigger the middleware to send an OpenID Connect sign-in request by decorating a class or method with the [Authorize] attribute, or by issuing a challenge,
-`HttpContext.GetOwinContext().Authentication.Challenge(new AuthenticationProperties { RedirectUri = "/" }, OpenIdConnectAuthenticationDefaults.AuthenticationType);`
+You can trigger the middleware to send an OpenID Connect sign-in request by decorating a class or method with the `[Authorize]` attribute, or by issuing a challenge,
+`HttpContext.GetOwinContext().Authentication.Challenge(`
+	`new AuthenticationProperties { RedirectUri = "/" }, OpenIdConnectAuthenticationDefaults.AuthenticationType);`
 Similarly you can send a signout request,
-`HttpContext.GetOwinContext().Authentication.SignOut(OpenIdConnectAuthenticationDefaults.AuthenticationType, CookieAuthenticationDefaults.AuthenticationType);`
+`HttpContext.GetOwinContext().Authentication.SignOut(`
+	`OpenIdConnectAuthenticationDefaults.AuthenticationType, CookieAuthenticationDefaults.AuthenticationType);`
 When a user is signed out, they will be redirected to the `Post_Logout_Redirect_Uri` specified when the OpenID Connect middleware is initialized.
 
 All of the OWIN middleware in this project is created as a part of the open source [Katana project](http://katanaproject.codeplex.com).  You can read more about OWIN [here](http://owin.org).
