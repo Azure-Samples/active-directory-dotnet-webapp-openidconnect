@@ -17,7 +17,8 @@ namespace WebApp_OpenIDConnect_DotNet
         //
         // The Client ID is used by the application to uniquely identify itself to Azure AD.
         // The Metadata Address is used by the application to retrieve the signing keys used by Azure AD.
-        // The Authority is the name of the Azure AD tenant in which this application is registered.
+        // The AAD Instance is the instance of Azure, for example public Azure or Azure China.
+        // The Authority is the sign-in URL of the tenant.
         // The Post Logout Redirect Uri is the URL where the user will be redirected after they sign out.
         //
         private static string clientId = ConfigurationManager.AppSettings["ida:ClientId"];
