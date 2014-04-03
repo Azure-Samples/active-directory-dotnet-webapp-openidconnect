@@ -51,7 +51,7 @@ All done!  Before moving on to the next step, you need to find the Client ID of 
 
 ### Step 5:  Run the sample
 
-You know what to do!
+Clean the solution, rebuild the solution, and run it.
 
 Click the sign-in link on the homepage of the application to sign-in.  On the Azure AD sign-in page, enter the name and password of a user account that is in your Azure AD tenant.
 
