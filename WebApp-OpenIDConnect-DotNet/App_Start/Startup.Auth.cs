@@ -24,6 +24,7 @@ using Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
+using Microsoft.IdentityModel.Protocols;
 using System.Configuration;
 using System.Globalization;
 
@@ -56,7 +57,8 @@ namespace WebApp_OpenIDConnect_DotNet
                 {
                     Client_Id = clientId,
                     Authority = authority,
-                    Post_Logout_Redirect_Uri = postLogoutRedirectUri
+                    Post_Logout_Redirect_Uri = postLogoutRedirectUri,
+                    Response_Type = OpenIdConnectResponseTypes.Id_Token
                 });
         }
     }
