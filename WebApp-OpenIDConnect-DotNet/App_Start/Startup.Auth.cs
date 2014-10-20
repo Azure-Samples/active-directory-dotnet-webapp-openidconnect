@@ -15,9 +15,6 @@
 //----------------------------------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 // The following using statements were added for this sample.
 using Owin;
@@ -26,6 +23,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
 using System.Configuration;
 using System.Globalization;
+using WebApp_OpenIDConnect_DotNet.Models;
 
 namespace WebApp_OpenIDConnect_DotNet
 {
@@ -50,14 +48,12 @@ namespace WebApp_OpenIDConnect_DotNet
             app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions());
-
-            app.UseOpenIdConnectAuthentication(
-                new OpenIdConnectAuthenticationOptions
-                {
-                    ClientId = clientId,
-                    Authority = authority,
-                    PostLogoutRedirectUri = postLogoutRedirectUri
-                });
+            OpenIdConnectAuthenticationOptions options = new OpenIdConnectAuthenticationOptions
+            {  
+                ClientId = clientId,
+                Authority = authority
+            };
+            app.Use(typeof(MyOpenIDConnectAuthenticationMiddleware), app, options);
         }
     }
 }
