@@ -26,6 +26,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
 using System.Configuration;
 using System.Globalization;
+using System.Threading.Tasks;
 
 namespace WebApp_OpenIDConnect_DotNet
 {
@@ -56,7 +57,16 @@ namespace WebApp_OpenIDConnect_DotNet
                 {
                     ClientId = clientId,
                     Authority = authority,
-                    PostLogoutRedirectUri = postLogoutRedirectUri
+                    PostLogoutRedirectUri = postLogoutRedirectUri,
+                    Notifications = new OpenIdConnectAuthenticationNotifications
+                    {
+                        AuthenticationFailed = context => 
+                        {
+                            context.HandleResponse();
+                            context.Response.Redirect("/Error?message=" + context.Exception.Message);
+                            return Task.FromResult(0);
+                        }
+                    }
                 });
         }
     }
