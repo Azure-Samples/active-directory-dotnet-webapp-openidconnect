@@ -4,8 +4,7 @@ platforms: dotnet
 author: dstrockis
 ---
 
-Integrate Azure AD into a web application using OpenID Connect
-===========================
+# Integrate Azure AD into a web application using OpenID Connect
 
 This sample shows how to build a .Net MVC web application that uses OpenID Connect to sign-in users from a single Azure Active Directory tenant, using the ASP.Net OpenID Connect OWIN middleware.
 
