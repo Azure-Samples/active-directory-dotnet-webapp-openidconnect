@@ -43,10 +43,13 @@ If you already have a user account in your Azure Active Directory tenant, you ca
 8. For the sign-on URL, enter the base URL for the sample, which is by default `https://localhost:44320/`.
 9. For the App ID URI, enter `https://<your_tenant_name>/WebApp-OpenIDConnect-DotNet`, replacing `<your_tenant_name>` with the name of your Azure AD tenant.
 
-All done!  Before moving on to the next step, you need to find the Client ID of your application.
+Now you'll need enter one more piece of data for your application:
 
-1. While still in the Azure portal, click the Configure tab of your application.
-2. Find the Client ID value and copy it to the clipboard.
+1. While still in the Azure portal, click the **Configure** tab of your application.
+2. Locate the **Manage Manifest** button in the bottom drawer.  Click it and download your application's manifest as a `.json` file.
+3. Open the `.json` file in a text editor and change the `logoutUrl` property to `https://localhost:44320/Account/EndSession`.  This is the default single sign out URL for this sample.
+4. Back in the Azure portal, click **Manage Manifest** then **Upload Manifest**, and upload your updated `.json` file.
+5. Finally, locate the **Client ID** value in the **Configure** tab and copy it to your clipboard.  You will need it shortly.
 
 ### Step 4:  Configure the sample to use your Azure Active Directory tenant
 
@@ -61,10 +64,6 @@ All done!  Before moving on to the next step, you need to find the Client ID of 
 Clean the solution, rebuild the solution, and run it.
 
 Click the sign-in link on the homepage of the application to sign-in.  On the Azure AD sign-in page, enter the name and password of a user account that is in your Azure AD tenant.
-
-## How To Deploy This Sample to Azure
-
-Coming soon.
 
 ## About The Code
 
@@ -87,7 +86,14 @@ HttpContext.GetOwinContext().Authentication.SignOut(
 ```
 When a user is signed out, they will be redirected to the `Post_Logout_Redirect_Uri` specified when the OpenID Connect middleware is initialized.
 
-All of the OWIN middleware in this project is created as a part of the open source [Katana project](http://katanaproject.codeplex.com).  You can read more about OWIN [here](http://owin.org).
+The sample also includes a `SingleSignOutMiddleware` class in the `Utils` folder.  This class is **not** strictly necessary for performing single sign out with Azure AD.  All that is required for single sign out is to:
+
+- Register the `logoutUrl` for your application as described in step 3.
+- Create a controller at that URL which ends the user's session upon receiving a GET request, and returns a success response.
+
+The `SingleSignOutMiddleware` is included so that the app can inform the user when a sign out has occurred.  It does so by setting a cookie whenever a sign out occurs, and then redirecting to a sign-out page whenever that cookie is present.  If you do not wish to show the user the signed-out page, you may remove the `SingleSignOutMiddleware` entirely.
+
+The OpenID Connect & Cookie OWIN middleware in this project is created as a part of the open source [Katana project](http://katanaproject.codeplex.com).  You can read more about OWIN [here](http://owin.org).
 
 ## How To Recreate This Sample
 

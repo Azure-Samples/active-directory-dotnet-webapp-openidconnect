@@ -27,6 +27,7 @@ using Microsoft.Owin.Security.OpenIdConnect;
 using System.Configuration;
 using System.Globalization;
 using System.Threading.Tasks;
+using WebApp_OpenIDConnect_DotNet.Utils;
 
 namespace WebApp_OpenIDConnect_DotNet
 {
@@ -49,6 +50,8 @@ namespace WebApp_OpenIDConnect_DotNet
         public void ConfigureAuth(IAppBuilder app)
         {
             app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
+
+            app.Use(typeof(SingleSignOutMiddleware), new SingleSignOutOptions { SignedOutUrl = "/Account/SignedOut" });
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions());
 

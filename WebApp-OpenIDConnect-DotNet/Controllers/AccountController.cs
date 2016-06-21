@@ -24,6 +24,7 @@ using System.Web.Mvc;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
 using Microsoft.Owin.Security;
+using WebApp_OpenIDConnect_DotNet.Utils;
 
 namespace WebApp_OpenIDConnect_DotNet.Controllers
 {
@@ -40,8 +41,21 @@ namespace WebApp_OpenIDConnect_DotNet.Controllers
         public void SignOut()
         {
             // Send an OpenID Connect sign-out request.
+            HttpContext.GetOwinContext().Response.Cookies.Append(SingleSignOutMiddleware.DefaultCookieName, SingleSignOutMiddleware.SignOutOccurred);
             HttpContext.GetOwinContext().Authentication.SignOut(
                 OpenIdConnectAuthenticationDefaults.AuthenticationType, CookieAuthenticationDefaults.AuthenticationType);
+        }
+
+        public void EndSession()
+        {
+            // If AAD sends a single sign-out message to the app, end the user's session, but don't redirect to AAD for sign out.
+            HttpContext.GetOwinContext().Response.Cookies.Append(SingleSignOutMiddleware.DefaultCookieName, SingleSignOutMiddleware.SignOutOccurred);
+            HttpContext.GetOwinContext().Authentication.SignOut(CookieAuthenticationDefaults.AuthenticationType);
+        }
+
+        public ActionResult SignedOut()
+        {
+            return View();
         }
 	}
 }
