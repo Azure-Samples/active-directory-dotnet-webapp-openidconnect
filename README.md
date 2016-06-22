@@ -86,13 +86,6 @@ HttpContext.GetOwinContext().Authentication.SignOut(
 ```
 When a user is signed out, they will be redirected to the `Post_Logout_Redirect_Uri` specified when the OpenID Connect middleware is initialized.
 
-The sample also includes a `SingleSignOutMiddleware` class in the `Utils` folder.  This class is **not** strictly necessary for performing single sign out with Azure AD.  All that is required for single sign out is to:
-
-- Register the `logoutUrl` for your application as described in step 3.
-- Create a controller at that URL which ends the user's session upon receiving a GET request, and returns a success response.
-
-The `SingleSignOutMiddleware` is included so that the app can inform the user when a sign out has occurred.  It does so by setting a cookie whenever a sign out occurs, and then redirecting to a sign-out page whenever that cookie is present.  If you do not wish to show the user the signed-out page, you may remove the `SingleSignOutMiddleware` entirely.
-
 The OpenID Connect & Cookie OWIN middleware in this project is created as a part of the open source [Katana project](http://katanaproject.codeplex.com).  You can read more about OWIN [here](http://owin.org).
 
 ## How To Recreate This Sample

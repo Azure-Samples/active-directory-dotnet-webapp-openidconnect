@@ -27,7 +27,6 @@ using Microsoft.Owin.Security.OpenIdConnect;
 using System.Configuration;
 using System.Globalization;
 using System.Threading.Tasks;
-using WebApp_OpenIDConnect_DotNet.Utils;
 
 namespace WebApp_OpenIDConnect_DotNet
 {
@@ -51,8 +50,6 @@ namespace WebApp_OpenIDConnect_DotNet
         {
             app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
 
-            app.Use(typeof(SingleSignOutMiddleware), new SingleSignOutOptions { SignedOutUrl = "/Account/SignedOut" });
-
             app.UseCookieAuthentication(new CookieAuthenticationOptions());
 
             app.UseOpenIdConnectAuthentication(
@@ -61,6 +58,7 @@ namespace WebApp_OpenIDConnect_DotNet
                     ClientId = clientId,
                     Authority = authority,
                     PostLogoutRedirectUri = postLogoutRedirectUri,
+                    RedirectUri = postLogoutRedirectUri,
                     Notifications = new OpenIdConnectAuthenticationNotifications
                     {
                         AuthenticationFailed = context => 
