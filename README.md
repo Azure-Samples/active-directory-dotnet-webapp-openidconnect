@@ -33,30 +33,21 @@ If you already have a user account in your Azure Active Directory tenant, you ca
 
 ### Step 3:  Register the sample with your Azure Active Directory tenant
 
-1. Sign in to the [Azure management portal](https://manage.windowsazure.com).
-2. Click on Active Directory in the left hand nav.
-3. Click the directory tenant where you wish to register the sample application.
-4. Click the Applications tab.
-5. In the drawer, click Add.
-6. Click "Add an application my organization is developing".
-7. Enter a friendly name for the application, for example "WebApp-OpenIDConnect-DotNet", select "Web Application and/or Web API", and click next.
-8. For the sign-on URL, enter the base URL for the sample, which is by default `https://localhost:44320/`.
-9. For the App ID URI, enter `https://<your_tenant_name>/WebApp-OpenIDConnect-DotNet`, replacing `<your_tenant_name>` with the name of your Azure AD tenant.
-
-Now you'll need enter one more piece of data for your application:
-
-1. While still in the Azure portal, click the **Configure** tab of your application.
-2. Locate the **Manage Manifest** button in the bottom drawer.  Click it and download your application's manifest as a `.json` file.
-3. Open the `.json` file in a text editor and change the `logoutUrl` property to `https://localhost:44320/Account/EndSession`.  This is the default single sign out URL for this sample.
-4. Back in the Azure portal, click **Manage Manifest** then **Upload Manifest**, and upload your updated `.json` file.
-5. Finally, locate the **Client ID** value in the **Configure** tab and copy it to your clipboard.  You will need it shortly.
+1. Sign in to the [Azure portal](https://portal.azure.com).
+2. On the top bar, click on your account and under the **Directory** list, choose the Active Directory tenant where you wish to register your application.
+2. Click on **More Services** in the left hand nav, and choose **Azure Active Directory**.
+3. Click on **Registered Applications** and choose **Add**.
+4. Enter a friendly name for the application, for example 'WebApp-OpenIDConnect-DotNet' and select 'Web Application and/or Web API' as the Application Type. For the sign-on URL, enter the base URL for the sample, which is by default `https://localhost:44320/`. Click on **Create** to create the application.
+5. While still in the Azure portal, choose your application, click on **Settings** and choose **Properties**.
+6. Find the Application ID value and copy it to the clipboard.
+7. In the same page, change the `logoutUrl` property to `https://localhost:44320/Account/EndSession`.  This is the default single sign out URL for this sample.
 
 ### Step 4:  Configure the sample to use your Azure Active Directory tenant
 
 1. Open the solution in Visual Studio 2013.
 2. Open the `web.config` file.
 3. Find the app key `ida:Tenant` and replace the value with your AAD tenant name.
-4. Find the app key `ida:ClientId` and replace the value with the Client ID from the Azure portal.
+4. Find the app key `ida:ClientId` and replace the value with the Application ID from the Azure portal.
 5. If you changed the base URL of the sample, find the app key `ida:PostLogoutRedirectUri` and replace the value with the new base URL of the sample.
 
 ### Step 5:  Run the sample
