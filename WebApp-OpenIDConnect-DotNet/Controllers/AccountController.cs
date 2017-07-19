@@ -49,5 +49,5 @@ namespace WebApp_OpenIDConnect_DotNet.Controllers
             // If AAD sends a single sign-out message to the app, end the user's session, but don't redirect to AAD for sign out.
             HttpContext.GetOwinContext().Authentication.SignOut(CookieAuthenticationDefaults.AuthenticationType);
         }
-	}
+    }
 }
