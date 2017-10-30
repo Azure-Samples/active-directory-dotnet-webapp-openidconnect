@@ -14,6 +14,11 @@ For more information about how the protocols work in this scenario and other sce
 
 ## How To Run This Sample
 
+>[!Note] If you want to run this sample on **Azure Government**, navigate to the "Azure Government Deviations" section at the bottom of this page.
+>
+>
+>
+
 Getting started is simple!  To run this sample you will need:
 - Visual Studio 2013
 - An Internet connection
@@ -91,3 +96,15 @@ The OpenID Connect & Cookie OWIN middleware in this project is created as a part
 12. If you want the user to be required to sign-in before they can see any page of the app, then in the `HomeController`, decorate the `HomeController` class with the `[Authorize]` attribute.  If you leave this out, the user will be able to see the home page of the app without having to sign-in first, and can click the sign-in link on that page to get signed in.
 13. Almost done!  Follow the steps in "Running This Sample" to register the application in your AAD tenant.
 14. In `web.config`, in `<appSettings>`, create keys for `ida:ClientId`, `ida:AADInstance`, `ida:Tenant`, and `ida:PostLogoutRedirectUri` and set the values accordingly.  For the public Azure AD, the value of `ida:AADInstance` is `https://login.microsoftonline.com/{0}`.
+
+## Azure Government Deviations
+
+In order to run this sample on Azure Government you can follow through the steps above with a few variations:
+
+- Step 2: 
+   - You must register this sample for your AAD Tenant in Azure Government by following Step 2 above in the [Azure Government portal](https://portal.azure.us). 
+- Step 3: 
+    - Before configuring the sample, you must make sure your [Visual Studio is connected to Azure Government](https://docs.microsoft.com/azure/azure-government/documentation-government-get-started-connect-with-vs).     
+    - Navigate to the Web.config file. Replace the `ida:AADInstance` property in the Azure AD section with `https://login.microsoftonline.us/`. 
+    
+Once those changes have been accounted for, you should be able to run this sample on Azure Government.  
