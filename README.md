@@ -152,6 +152,8 @@ In order to run this sample on Azure Government, you can follow through the step
 
 Once those changes have been accounted for, you should be able to run this sample on Azure Government
 
+## Deploying the sample to Azure
+
 ### Create and publish the `WebApp-OpenIDConnect-DotNet` to an Azure Web Site
 
 1. Sign in to the [Azure portal](https://portal.azure.com).
@@ -171,7 +173,7 @@ Once those changes have been accounted for, you should be able to run this sampl
 
 ## Community Help and Support
 
-Use [Stack Overflow](http://stackoverflow.com/questions/tagged/adal) to get support from the community.
+Use [Stack Overflow]https://stackoverflow.com/questions/tagged/azure-active-directory) to get support from the community.
 Ask your questions on Stack Overflow first and browse existing issues to see if someone has asked your question before.
 Make sure that your questions or comments are tagged with [`azure-active-directory`].
 
