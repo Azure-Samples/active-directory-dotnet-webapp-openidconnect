@@ -173,7 +173,7 @@ Once those changes have been accounted for, you should be able to run this sampl
 
 ## Community Help and Support
 
-Use [Stack Overflow]https://stackoverflow.com/questions/tagged/azure-active-directory) to get support from the community.
+Use [Stack Overflow](https://stackoverflow.com/questions/tagged/azure-active-directory) to get support from the community.
 Ask your questions on Stack Overflow first and browse existing issues to see if someone has asked your question before.
 Make sure that your questions or comments are tagged with [`azure-active-directory`].
 
