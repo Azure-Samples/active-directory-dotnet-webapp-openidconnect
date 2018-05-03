@@ -124,7 +124,7 @@ The OpenID Connect & Cookie OWIN middleware in this project is created as a part
 
 ## How to recreate this sample
 
-1. In Visual Studio 2013, create a new ASP.Net MVC web application with Authentication set to No Authentication.
+1. In Visual Studio, create a new ASP.Net MVC web application with Authentication set to No Authentication.
 2. Set SSL Enabled to be True.  Note the SSL URL.
 3. In the project properties, Web properties, set the Project Url to be the SSL URL.
 4. Add the following ASP.Net OWIN middleware NuGets: Microsoft.IdentityModel.Protocol.Extensions, System.IdentityModel.Tokens.Jwt, Microsoft.Owin.Security.OpenIdConnect, Microsoft.Owin.Security.Cookies, Microsoft.Owin.Host.SystemWeb.
@@ -169,14 +169,11 @@ Once those changes have been accounted for, you should be able to run this sampl
 3. On the applications tab, select the `WebApp-OpenIDConnect-DotNet` application.
 4. From the Settings -> Reply URLs menu, update the Sign-On URL, and Reply URL fields to the address of your service, for example [https://WebApp-OpenIDConnect-DotNet-contoso.azurewebsites.net](https://WebApp-OpenIDConnect-DotNet-contoso.azurewebsites.net). Save the configuration.
 
-> NOTE: Remember, the To Do list is stored in memory in this TodoListService sample. Azure Web Sites will spin down your web site if it is inactive, and your To Do list will get emptied.
-Also, if you increase the instance count of the web site, requests will be distributed among the instances. To Do will, therefore, not be the same on each instance.
-
 ## Community Help and Support
 
 Use [Stack Overflow](http://stackoverflow.com/questions/tagged/adal) to get support from the community.
 Ask your questions on Stack Overflow first and browse existing issues to see if someone has asked your question before.
-Make sure that your questions or comments are tagged with [`adal` `dotnet`].
+Make sure that your questions or comments are tagged with [`azure-active-directory`].
 
 If you find a bug in the sample, please raise the issue on [GitHub Issues](../../issues).
 
@@ -190,12 +187,8 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 
 ## More information
 
-For more information, see ADAL.NET's conceptual documentation:
+For more information about how to secure an ASP.NET web app using Azure Active Directory, please see [Developing ASP.NET Apps with Azure Active Directory](https://docs.microsoft.com/en-us/aspnet/identity/overview/getting-started/developing-aspnet-apps-with-windows-azure-active-directory#create-an-aspnet-application)
 
-> Provide links to the flows from the conceptual documentation
-> for instance:
-- [Recommended pattern to acquire a token](https://github.com/AzureAD/azure-activedirectory-library-for-dotnet/wiki/AcquireTokenSilentAsync-using-a-cached-token#recommended-pattern-to-acquire-a-token)
-- [Acquiring tokens interactively in public client applications](https://github.com/AzureAD/azure-activedirectory-library-for-dotnet/wiki/Acquiring-tokens-interactively---Public-client-application-flows)
-- [Customizing Token cache serialization](https://github.com/AzureAD/azure-activedirectory-library-for-dotnet/wiki/Token-cache-serialization)
+If you are interested in the same, but for **.NET Core**, see [Azure Active Directory with ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/security/authentication/azure-active-directory/?view=aspnetcore-2.1)
 
 For more information about how OAuth 2.0 protocols work in this scenario and other scenarios, see [Authentication Scenarios for Azure AD](http://go.microsoft.com/fwlink/?LinkId=394414).
