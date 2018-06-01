@@ -59,6 +59,23 @@ If you want to use this automation, read the instructions in [App Creation Scrip
 As a first step you'll need to:
 
 1. Sign in to the [Azure portal](https://portal.azure.com).
+2. On the top bar, click on your account and under the **Directory** list, choose the Active Directory tenant where you wish to register your application.
+3. Click on **More Services** in the left hand nav, and choose **Azure Active Directory**.
+4. Click on **App registrations** and choose **Add**.
+5. Enter a friendly name for the application, for example 'WebApp-OpenIDConnect-DotNet' and select 'Web Application and/or Web API' as the Application Type. For the sign-on URL, enter the base URL for the sample - i.e 'https://myappname.azurewebsites.net/' Click on **Create** to create the application.
+6. While still in the Azure portal, make sure you select the display setting **All apps** (not "My apps") to be able to see the application you've just created. Choose your application, click on **Settings** and choose **Properties**.
+7. Find the Application ID value and copy it to the clipboard.
+8. In the same page, change the `logoutUrl` property to `https://yourappname.azurewebsites.net/Account/EndSession`.  This is the default single sign out URL for this sample.
+9. For the App ID URI, enter `https://<your_tenant_name>/WebApp-OpenIDConnect-DotNet`, replacing `<your_tenant_name>` with the name of your Azure AD tenant. 
+
+### Step 3:  Configure the sample to use your Azure Active Directory tenant
+
+1. Open the solution in Visual Studio 2013.
+2. Open the `web.config` file.
+3. Find the app key `ida:Tenant` and replace the value with your AAD tenant name.
+4. Find the app key `ida:ClientId` and replace the value with the Application ID from the Azure portal.
+5. If you changed the base URL of the sample, find the app key `ida:PostLogoutRedirectUri` and replace the value with the new base URL of the sample.
+=======
 1. On the top bar, click on your account and under the **Directory** list, choose the Active Directory tenant where you wish to register your application.
 1. Click on **All services** in the left-hand nav, and choose **Azure Active Directory**.
 
