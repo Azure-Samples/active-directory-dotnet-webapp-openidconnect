@@ -52,7 +52,7 @@ To register the project, you can:
   - **automatically** create for you the Azure AD applications and related objects (passwords, permissions, dependencies)
   - modify the Visual Studio projects' configuration files.
 
-If you want to use this automation, read the instructions in [App Creation Scripts](./AppCreationScripts/AppCreationScripts.md)
+If you want to use this automation, read the instructions in [App Creation Scripts](https://github.com/Azure-Samples/active-directory-dotnet-webapp-openidconnect/blob/master/AppCreationScripts/AppCreationScripts.md)
 
 #### First step: choose the Azure AD tenant where you want to create your applications
 
