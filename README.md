@@ -18,7 +18,7 @@ This sample shows how to build a .Net MVC web application that uses OpenID Conne
 
 For more information about how the protocols work in this scenario and other scenarios, see [Authentication Scenarios for Azure AD](http://go.microsoft.com/fwlink/?LinkId=394414).
 
-![Overview](./ReadmeFiles/topology.png)
+![Overview](https://github.com/Azure-Samples/active-directory-dotnet-webapp-openidconnect/blob/master/ReadmeFiles/topology.png)
 
 ### Scenario
 
