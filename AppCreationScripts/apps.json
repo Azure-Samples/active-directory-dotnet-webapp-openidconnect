@@ -3,7 +3,8 @@
     "Title": "A .NET MVC web application that uses OpenID Connect to sign-in users from a single Azure Active Directory tenant.",
     "Level": 200,
     "Client": "ASP.NET 4.x Web App",
-    "Service": ""
+    "Service": "",
+    "RepositoryUrl": "active-directory-dotnet-webapp-openidconnect"
   },
 
 
@@ -15,6 +16,7 @@
       "Id": "app",
       "Name": "WebApp-OpenIDConnect-DotNet",
       "IsPublicClient": false,
+      "Kind": "WebApp",
       "HomePage": "https://localhost:44320/",
       "ReplyUrls": "https://localhost:44320/",
       "RequiredResourcesAccess": [
