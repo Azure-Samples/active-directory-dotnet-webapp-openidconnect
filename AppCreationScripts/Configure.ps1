@@ -1,3 +1,10 @@
+[CmdletBinding()]
+param(
+    [PSCredential] $Credential,
+    [Parameter(Mandatory=$False, HelpMessage='Tenant ID (This is a GUID which represents the "Directory ID" of the AzureAD tenant into which you want to create the apps')]
+    [string] $tenantId
+)
+
 <#
  This script creates the Azure AD applications needed for this sample and updates the configuration files
  for the visual Studio projects from the data in the Azure AD applications.
@@ -93,15 +100,7 @@ Function ConfigureApplications
    configuration files in the client and service project  of the visual studio solution (App.Config and Web.Config)
    so that they are consistent with the Applications parameters
 #> 
-    [CmdletBinding()]
-    param(
-        [PSCredential] $Credential,
-        [Parameter(HelpMessage='Tenant ID (This is a GUID which represents the "Directory ID" of the AzureAD tenant into which you want to create the apps')]
-        [string] $tenantId
-    )
 
-   process
-   {
     # $tenantId is the Active Directory Tenant. This is a GUID which represents the "Directory ID" of the AzureAD tenant
     # into which you want to create the apps. Look it up in the Azure portal in the "Properties" of the Azure AD.
 
@@ -127,45 +126,68 @@ Function ConfigureApplications
     {
         $tenantId = $creds.Tenant.Id
     }
+
     $tenant = Get-AzureADTenantDetail
     $tenantName =  ($tenant.VerifiedDomains | Where { $_._Default -eq $True }).Name
 
+    # Get the user running the script
+    $user = Get-AzureADUser -ObjectId $creds.Account.Id
+
    # Create the app AAD application
-   Write-Host "Creating the AAD appplication (WebApp-OpenIDConnect-DotNet)"
+   Write-Host "Creating the AAD application (WebApp-OpenIDConnect-DotNet)"
    $appAadApplication = New-AzureADApplication -DisplayName "WebApp-OpenIDConnect-DotNet" `
                                                -HomePage "https://localhost:44320/" `
                                                -ReplyUrls "https://localhost:44320/" `
                                                -IdentifierUris "https://$tenantName/WebApp-OpenIDConnect-DotNet" `
+                                               -AvailableToOtherTenants $True `
+                                               -Oauth2AllowImplicitFlow $true `
                                                -PublicClient $False
-
 
    $currentAppId = $appAadApplication.AppId
    $appServicePrincipal = New-AzureADServicePrincipal -AppId $currentAppId -Tags {WindowsAzureActiveDirectoryIntegratedApp}
-   Write-Host "Done."
+
+   # add the user running the script as an app owner if needed
+   $owner = Get-AzureADApplicationOwner -ObjectId $appAadApplication.ObjectId
+   if ($owner -eq $null)
+   { 
+    Add-AzureADApplicationOwner -ObjectId $appAadApplication.ObjectId -RefObjectId $user.ObjectId
+    Write-Host "'$($user.UserPrincipalName)' added as an application owner to app '$($appServicePrincipal.DisplayName)'"
+   }
+
+   Write-Host "Done creating the app application (WebApp-OpenIDConnect-DotNet)"
 
    # URL of the AAD application in the Azure portal
-   $appPortalUrl = "https://portal.azure.com/#@"+$tenantName+"/blade/Microsoft_AAD_IAM/ApplicationBlade/appId/"+$appAadApplication.AppId+"/objectId/"+$appAadApplication.ObjectId
+   # Future? $appPortalUrl = "https://portal.azure.com/#@"+$tenantName+"/blade/Microsoft_AAD_RegisteredApps/ApplicationMenuBlade/Overview/appId/"+$appAadApplication.AppId+"/objectId/"+$appAadApplication.ObjectId+"/isMSAApp/"
+   $appPortalUrl = "https://portal.azure.com/#blade/Microsoft_AAD_RegisteredApps/ApplicationMenuBlade/CallAnAPI/appId/"+$appAadApplication.AppId+"/objectId/"+$appAadApplication.ObjectId+"/isMSAApp/"
    Add-Content -Value "<tr><td>app</td><td>$currentAppId</td><td><a href='$appPortalUrl'>WebApp-OpenIDConnect-DotNet</a></td></tr>" -Path createdApps.html
 
    $requiredResourcesAccess = New-Object System.Collections.Generic.List[Microsoft.Open.AzureAD.Model.RequiredResourceAccess]
+
    # Add Required Resources Access (from 'app' to 'Windows Azure Active Directory')
    Write-Host "Getting access from 'app' to 'Windows Azure Active Directory'"
    $requiredPermissions = GetRequiredPermissions -applicationDisplayName "Windows Azure Active Directory" `
-                                                 -requiredDelegatedPermissions "User.Read";
+                                                -requiredDelegatedPermissions "User.Read";
+
    $requiredResourcesAccess.Add($requiredPermissions)
+
+
    Set-AzureADApplication -ObjectId $appAadApplication.ObjectId -RequiredResourceAccess $requiredResourcesAccess
-   Write-Host "Granted."
+   Write-Host "Granted permissions."
 
    # Update config file for 'app'
    $configFile = $pwd.Path + "\..\WebApp-OpenIDConnect-DotNet\Web.Config"
    Write-Host "Updating the sample code ($configFile)"
    ReplaceSetting -configFilePath $configFile -key "ida:Tenant" -newValue $tenantName
    ReplaceSetting -configFilePath $configFile -key "ida:ClientId" -newValue $appAadApplication.AppId
-   Add-Content -Value "</tbody></table></body></html>" -Path createdApps.html
 
-  }
+   Add-Content -Value "</tbody></table></body></html>" -Path createdApps.html  
 }
 
+# Pre-requisites
+if ((Get-Module -ListAvailable -Name "AzureAD") -eq $null) { 
+    Install-Module "AzureAD" -Scope CurrentUser 
+} 
+Import-Module AzureAD
 
 # Run interactively (will ask you for the tenant ID)
 ConfigureApplications -Credential $Credential -tenantId $TenantId
